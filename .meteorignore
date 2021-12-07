@@ -1,0 +1,4 @@
+coverage
+jest.*.js
+mocks
+cypress/*

@@ -1,1 +1,13 @@
+# NODE Modules
 node_modules/
+
+# Test files
+tests/cypress/screenshots/
+tests/cypress/videos/
+.scannerwork/
+
+# VS code files
+.vscode/launch.json
+
+# System files
+.DS_Store

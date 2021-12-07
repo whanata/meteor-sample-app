@@ -1,0 +1,10 @@
+{
+  "projectId": "pmk3hh",
+  "fixturesFolder": "tests/cypress/fixtures",
+  "integrationFolder": "tests/cypress/integration/tests",
+  "pluginsFile": "tests/cypress/plugins/index.js",
+  "screenshotsFolder": "tests/cypress/screenshots",
+  "supportFile": "tests/cypress/support/index.js",
+  "videosFolder": "tests/cypress/videos",
+  "baseUrl": "http://localhost:3000"
+}
