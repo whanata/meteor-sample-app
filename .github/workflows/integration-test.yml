@@ -21,5 +21,8 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts
 
+      - name: Start Meteor App
+        run: meteor npm run start
+
       - name: Run Integration Tests
         run: ./scripts/integration-test.sh
