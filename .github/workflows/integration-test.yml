@@ -23,29 +23,22 @@ jobs:
           meteor-release: '2.1.1'
 
       - name: Install dependencies
-        shell: bash -l {0}
         run: meteor npm ci --ignore-scripts
 
       - name: Start Meteor App
-        shell: bash -l {0}
         run: nohup meteor npm run start &
 
       - name: Install Wait Port
-        shell: bash -l {0}
         run: npm install -g wait-port
 
       - name: Install Meteor Ping
-        shell: bash -l {0}
         run: npm install -g meteor-ping
 
       - name: Wait Until Port 3000 Is Being Used
-        shell: bash -l {0}
         run: wait-port 3000
 
       - name: Wait Until Meteor App is Up
-        shell: bash -l {0}
         run: meteor-ping --connectTimeout 600000
 
       - name: Run Integration Tests
-        shell: bash -l {0}
         run: ./scripts/integration-test.sh
