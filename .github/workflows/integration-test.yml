@@ -35,7 +35,7 @@ jobs:
         run: npm install -g meteor-ping
 
       - name: Wait Until Meteor App is Up
-        run: wait-port 3000 && meteor-ping --connectTimeout 600000
+        run: wait-port 3000 && meteor-ping --connectTimeout 600000 --collection 'meteor.links'
 
       - name: Run Integration Tests
         run: ./scripts/integration-test.sh
