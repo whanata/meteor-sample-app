@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  test:
+  integration:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -27,6 +27,18 @@ jobs:
 
       - name: Start Meteor App
         run: meteor npm run start
+
+      - name: Start Meteor App
+        run: nohup meteor npm run start &
+
+      - name: Install Wait Port
+        run: npm install -g wait-port
+
+      - name: Install Meteor Ping
+        run: npm install -g meteor-ping
+
+      - name: Wait Until Meteor App is Up
+        run: wait-port 3000 && meteor-ping --connectTimeout 600000
 
       - name: Run Integration Tests
         run: ./scripts/integration-test.sh
