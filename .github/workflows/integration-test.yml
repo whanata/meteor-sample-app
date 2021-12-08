@@ -28,20 +28,13 @@ jobs:
       - name: Start Meteor App
         run: nohup meteor npm run start &
 
-      - name: Install Wait Port
-        run: npm install -g wait-port
-
-      - name: Install Meteor Ping
-        run: npm install -g meteor-ping
-
-      - name: Sleep for 10 minutes
-        run: sleep 600s
-
-      - name: Wait Until Port 3000 Is Being Used
-        run: wait-port 3000
-
-      - name: Wait Until Meteor App is Up
-        run: meteor-ping --connectTimeout 600000
+      - name: Wait Until Meteor App Is Up
+        uses: nev7n/wait_for_response@v1
+        with:
+          url: 'http://localhost:3000/'
+          responseCode: 200
+          timeout: 600000
+          interval: 1000
 
       - name: Run Integration Tests
         run: ./scripts/integration-test.sh
