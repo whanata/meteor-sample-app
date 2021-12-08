@@ -26,9 +26,6 @@ jobs:
         run: meteor npm ci --ignore-scripts
 
       - name: Start Meteor App
-        run: meteor npm run start
-
-      - name: Start Meteor App
         run: nohup meteor npm run start &
 
       - name: Install Wait Port
