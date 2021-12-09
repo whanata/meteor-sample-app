@@ -41,6 +41,21 @@ jobs:
       #     timeout: 600000
       #     interval: 1000
 
-      - name: Run Integration Tests
+      - name: Record Event Failure
         if: failure()
-        run: echo $BUILD_URL
+        uses: masci/datadog@v1
+        with:
+          api-key: ${{ secrets.DATADOG_API_KEY }}
+          events: |
+            - title: "[TESTING] Failed Integration Tests"
+              text: >
+                Branch ${{ github.head_ref }} failed in running integration tests.
+                Commit Hash: ${{ github.sha }}.
+                See $BUILD_URL for more information on this error.
+              alert_type: "error"
+              host: ${{ github.repository_owner }}
+              tags:
+                - "project:${{ github.repository }}"
+                - "build_url:$BUILD_URL"
+                - "version:${{ github.sha }}"
+                - "test_type:integration_test"
