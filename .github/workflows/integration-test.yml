@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - master
-concurrency:
-  group: test
-  cancel-in-progress: true
+# concurrency:
+#   group: test
+#   cancel-in-progress: true
 
 jobs:
   integration:
@@ -14,48 +14,51 @@ jobs:
     env:
       BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Test
+        run: echo "${{ github.event_name }}"
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
+      # - uses: actions/checkout@v2
 
-      - uses: meteorengineer/setup-meteor@v1
-        with:
-          meteor-release: '2.1.1'
+      # - name: Cache dependencies
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ~/.npm
+      #     key: npm-${{ hashFiles('package-lock.json') }}
+      #     restore-keys: npm-
 
-      - name: Install dependencies
-        run: meteor npm ci --ignore-scripts
+      # - uses: meteorengineer/setup-meteor@v1
+      #   with:
+      #     meteor-release: '2.1.1'
 
-      - name: Start Meteor App
-        run: nohup meteor npm run start &
+      # - name: Install dependencies
+      #   run: meteor npm ci --ignore-scripts
 
-      - name: Wait Until Meteor App Is Up
-        uses: nev7n/wait_for_response@v1
-        with:
-          url: 'http://localhost:3000/'
-          responseCode: 200
-          timeout: 600000
-          interval: 1000
+      # - name: Start Meteor App
+      #   run: nohup meteor npm run start &
 
-      - name: Record Event Failure
-        if: failure()
-        uses: masci/datadog@v1
-        with:
-          api-key: ${{ secrets.DATADOG_API_KEY }}
-          events: |
-            - title: "[TESTING] Failed Integration Tests"
-              text: >
-                Branch ${{ github.head_ref }} failed in running integration tests.
-                Commit Hash: ${{ github.sha }}.
-                See ${{ env.BUILD_URL }} for more information on this error.
-              alert_type: "error"
-              host: ${{ github.repository_owner }}
-              tags:
-                - "project:${{ github.repository }}"
-                - "build_url:${{ env.BUILD_URL }}"
-                - "version:${{ github.sha }}"
-                - "test_type:integration_test"
+      # - name: Wait Until Meteor App Is Up
+      #   uses: nev7n/wait_for_response@v1
+      #   with:
+      #     url: 'http://localhost:3000/'
+      #     responseCode: 200
+      #     timeout: 600000
+      #     interval: 1000
+
+      # - name: Record Event Failure
+      #   if: failure()
+      #   uses: masci/datadog@v1
+      #   with:
+      #     api-key: ${{ secrets.DATADOG_API_KEY }}
+      #     events: |
+      #       - title: "[TESTING] Failed Integration Tests"
+      #         text: >
+      #           Branch ${{ github.head_ref }} failed in running integration tests.
+      #           Commit Hash: ${{ github.sha }}.
+      #           See ${{ env.BUILD_URL }} for more information on this error.
+      #         alert_type: "error"
+      #         host: ${{ github.repository_owner }}
+      #         tags:
+      #           - "project:${{ github.repository }}"
+      #           - "build_url:${{ env.BUILD_URL }}"
+      #           - "version:${{ github.sha }}"
+      #           - "test_type:integration_test"
