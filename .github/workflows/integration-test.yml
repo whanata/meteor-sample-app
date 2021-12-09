@@ -8,6 +8,8 @@ on:
 jobs:
   integration:
     runs-on: ubuntu-latest
+    env:
+      BUILD_URL: ${{GITHUB_SERVER_URL}}/${{GITHUB_REPOSITORY}}/actions/runs/${{GITHUB_RUN_ID}}
     steps:
       - name: Fail
         run: exit 1
@@ -41,4 +43,4 @@ jobs:
 
       - name: Run Integration Tests
         if: failure()
-        run: echo "wira"
+        run: echo $BUILD_URL
