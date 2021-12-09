@@ -9,6 +9,9 @@ jobs:
   integration:
     runs-on: ubuntu-latest
     steps:
+      - name: Fail
+        run: exit 1
+
       - uses: actions/checkout@v2
 
       - name: Cache dependencies
@@ -37,4 +40,5 @@ jobs:
           interval: 1000
 
       - name: Run Integration Tests
+        if: failure()
         run: ./scripts/integration-test.sh
