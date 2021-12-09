@@ -13,7 +13,6 @@ jobs:
     steps:
       - name: Fail
         run: |
-          echo "${{ secrets.DATADOG_API_KEY }}"
           exit 1
 
       - uses: actions/checkout@v2
