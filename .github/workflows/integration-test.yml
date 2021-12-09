@@ -15,7 +15,7 @@ jobs:
       BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
       - name: 'Work'
-        if: github.event_name == 'workflow_dispatch && always()'
+        if: github.event_name == 'workflow_dispatch' && always()
         run: echo "work plz"
 
       - uses: actions/checkout@v2
