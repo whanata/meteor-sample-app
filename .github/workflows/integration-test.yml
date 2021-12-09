@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - master
-# concurrency:
-#   group: test
-#   cancel-in-progress: true
+concurrency:
+  group: test-${{ github.event_name }}
+  cancel-in-progress: true
 
 jobs:
   integration:
@@ -14,35 +14,36 @@ jobs:
     env:
       BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
-      - name: Test
-        run: echo "${{ github.event_name }}"
+      - name: 'Work'
+        if: github.event_name === 'workflow_dispatch && always()'
+        run: echo "work plz"
 
-      # - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      # - name: Cache dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: ~/.npm
-      #     key: npm-${{ hashFiles('package-lock.json') }}
-      #     restore-keys: npm-
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
 
-      # - uses: meteorengineer/setup-meteor@v1
-      #   with:
-      #     meteor-release: '2.1.1'
+      - uses: meteorengineer/setup-meteor@v1
+        with:
+          meteor-release: '2.1.1'
 
-      # - name: Install dependencies
-      #   run: meteor npm ci --ignore-scripts
+      - name: Install dependencies
+        run: meteor npm ci --ignore-scripts
 
-      # - name: Start Meteor App
-      #   run: nohup meteor npm run start &
+      - name: Start Meteor App
+        run: nohup meteor npm run start &
 
-      # - name: Wait Until Meteor App Is Up
-      #   uses: nev7n/wait_for_response@v1
-      #   with:
-      #     url: 'http://localhost:3000/'
-      #     responseCode: 200
-      #     timeout: 600000
-      #     interval: 1000
+      - name: Wait Until Meteor App Is Up
+        uses: nev7n/wait_for_response@v1
+        with:
+          url: 'http://localhost:3000/'
+          responseCode: 200
+          timeout: 600000
+          interval: 1000
 
       # - name: Record Event Failure
       #   if: failure()
