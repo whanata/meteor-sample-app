@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
 
 jobs:
   integration:
@@ -11,10 +14,6 @@ jobs:
     env:
       BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
-      - name: Fail
-        run: |
-          exit 1
-
       - uses: actions/checkout@v2
 
       - name: Cache dependencies
@@ -34,13 +33,13 @@ jobs:
       - name: Start Meteor App
         run: nohup meteor npm run start &
 
-      # - name: Wait Until Meteor App Is Up
-      #   uses: nev7n/wait_for_response@v1
-      #   with:
-      #     url: 'http://localhost:3000/'
-      #     responseCode: 200
-      #     timeout: 600000
-      #     interval: 1000
+      - name: Wait Until Meteor App Is Up
+        uses: nev7n/wait_for_response@v1
+        with:
+          url: 'http://localhost:3000/'
+          responseCode: 200
+          timeout: 600000
+          interval: 1000
 
       - name: Record Event Failure
         if: failure()
