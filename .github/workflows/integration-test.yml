@@ -12,7 +12,9 @@ jobs:
       BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
       - name: Fail
-        run: exit 1
+        run: |
+          echo "${{ secrets.DATADOG_API_KEY }}"
+          exit 1
 
       - uses: actions/checkout@v2
 
