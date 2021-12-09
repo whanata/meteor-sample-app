@@ -51,11 +51,11 @@ jobs:
               text: >
                 Branch ${{ github.head_ref }} failed in running integration tests.
                 Commit Hash: ${{ github.sha }}.
-                See $BUILD_URL for more information on this error.
+                See ${{ env.BUILD_URL }} for more information on this error.
               alert_type: "error"
               host: ${{ github.repository_owner }}
               tags:
                 - "project:${{ github.repository }}"
-                - "build_url:$BUILD_URL"
+                - "build_url:${{ env.BUILD_URL }}"
                 - "version:${{ github.sha }}"
                 - "test_type:integration_test"
