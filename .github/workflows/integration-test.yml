@@ -33,13 +33,13 @@ jobs:
       - name: Start Meteor App
         run: nohup meteor npm run start &
 
-      - name: Wait Until Meteor App Is Up
-        uses: nev7n/wait_for_response@v1
-        with:
-          url: 'http://localhost:3000/'
-          responseCode: 200
-          timeout: 600000
-          interval: 1000
+      # - name: Wait Until Meteor App Is Up
+      #   uses: nev7n/wait_for_response@v1
+      #   with:
+      #     url: 'http://localhost:3000/'
+      #     responseCode: 200
+      #     timeout: 600000
+      #     interval: 1000
 
       - name: Run Integration Tests
         if: failure()
