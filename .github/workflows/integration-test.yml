@@ -5,7 +5,7 @@ on:
     branches:
       - master
 concurrency:
-  group: ${{ github.head_ref }}
+  group: test
   cancel-in-progress: true
 
 jobs:
