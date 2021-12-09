@@ -41,4 +41,4 @@ jobs:
 
       - name: Run Integration Tests
         if: failure()
-        run: ./scripts/integration-test.sh
+        run: echo "wira"
